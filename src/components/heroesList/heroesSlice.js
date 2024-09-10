@@ -11,9 +11,9 @@ export const fetchHeroes = createAsyncThunk(
     'heroes/fetchHeroes',
     async () => {
         const { request } = useHttp();
-        return await request('http://localhost:3001/heroes');
+        return await request("http://localhost:3001/heroes");
     }
-)
+);
 
 const heroesSlice = createSlice({
     name: 'heroes',
@@ -44,7 +44,7 @@ const { actions, reducer } = heroesSlice;
 
 export default reducer;
 
-const { selectAll } = heroesAdapter.getSelectors((state) => state.heroes)
+const { selectAll } = heroesAdapter.getSelectors(state => state.heroes);
 
 export const filteredHeroesSelector = createSelector(
     (state) => state.filters.activeFilter,
