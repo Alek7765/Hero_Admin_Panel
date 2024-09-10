@@ -1,7 +1,7 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from '../components/heroesList/heroesSlice';
 import filters from '../components/heroesFilters/filtersSlice';
+import { apiSlice } from '../api/apiSclice';
 
 
 const stringMiddleWare = () => (next) => (action) => {
@@ -36,9 +36,12 @@ const stringMiddleWare = () => (next) => (action) => {
 // );
 
 const store = configureStore({
-    reducer: { heroes, filters }, // наши созданые редьюсеры
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleWare), // дефолтные мидлевэиры и наш созданный для строк
-    devTools: process.env.NODE_ENV !== 'production', // плагин для редукса только для разработки, не для продакшена
+    reducer: {
+        filters,
+        [apiSlice.reducerPath]: apiSlice.reducer
+    }, // наши созданые редьюсеры
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(stringMiddleWare, apiSlice.middleware), // дефолтные мидлевэиры и наш созданный для строк
+    devTools: process.env.NODE_ENV !== 'production' // плагин для редукса только для разработки, не для продакшена
 })
 
 export default store;
